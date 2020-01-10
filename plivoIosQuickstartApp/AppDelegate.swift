@@ -39,12 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                 if granted {
                     print("AVAudioSession permission - granted ")
                     do {
-                        //try session.setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playAndRecord)), mode: AVAudioSession.Mode.default)
-                        //try session.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.default)
-                        //try session.setCategory(AVAudioSession.Category.playAndRecord)
                         try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.voiceChat, options: .defaultToSpeaker)
-                        //try session.setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: [])
-                        
                         try audioSession.setActive(true)
                     }
                     catch {

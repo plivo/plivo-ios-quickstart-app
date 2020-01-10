@@ -38,8 +38,8 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     // -----------------------------------------
     //Replace the following values with your SIP URI endpoint and its password
     // -----------------------------------------
-    var username: NSString = "altanai466928765560244342301141"
-    var pass: NSString = "12345678"
+    var username: NSString = "plivo143597921360040065243480"
+    var pass: NSString = "12345"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -212,7 +212,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
         DispatchQueue.main.async(execute: {() -> Void in
             self.muteButton.isEnabled = true
             self.holdButton.isEnabled = true
-            self.callStateLabel.text = "Outgoing Call conneted"
+            self.callStateLabel.text = "Connected"
             
             // Start Audio Device
             Phone.sharedInstance.startAudioDevice()
@@ -553,9 +553,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     
     // MARK: - Handling IBActions
     @IBAction func callButtonTapped(_ sender: Any) {
-        
         print(" >> callButtonTapped ")
-            
         switch AVAudioSession.sharedInstance().recordPermission {
                 
             case AVAudioSession.RecordPermission.granted:
@@ -619,7 +617,6 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
             }
         }
         else {
-            
             DispatchQueue.main.async(execute: {() -> Void in
                 self.muteButton.setImage(UIImage(named: "Unmute.png"), for: .normal)
             })
