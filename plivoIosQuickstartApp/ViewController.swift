@@ -277,13 +277,13 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
                 print("Outgoing call - uuid is: %@", uuid);
                 CallKitInstance.sharedInstance.callKitProvider?.setDelegate(self, queue: DispatchQueue.main)
                 CallKitInstance.sharedInstance.callObserver?.setDelegate(self, queue: DispatchQueue.main)
-                if uuid == nil || handle == nil {
+                if uuid.uuidString.isEmpty || handle.isEmpty {
                     print("UUID or Handle nil");
                     return
                 }
                 
                 var newHandleString: String = handle.replacingOccurrences(of: "-", with: "")
-                if (newHandleString as NSString).range(of: "+91").location == NSNotFound && (newHandleString.characters.count) == 10 {
+                if (newHandleString as NSString).range(of: "+91").location == NSNotFound && (newHandleString.count) == 10 {
                     newHandleString = "+91\(newHandleString)"
                 }
                 let callHandle = CXHandle(type: .generic, value: newHandleString)

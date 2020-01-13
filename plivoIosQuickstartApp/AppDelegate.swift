@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         // Create a push registry object
         let voipResistry = PKPushRegistry(queue: mainQueue)
         // Set the registry's delegate to self
-        voipResistry.delegate = (self as? PKPushRegistryDelegate)
+        voipResistry.delegate = (self as PKPushRegistryDelegate)
         //Set the push type to VOIP
         voipResistry.desiredPushTypes = Set<AnyHashable>([PKPushType.voIP]) as? Set<PKPushType>
     }
