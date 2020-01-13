@@ -38,16 +38,18 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     // -----------------------------------------
     //Replace the following values with your SIP URI endpoint and its password
     // -----------------------------------------
-    var username: NSString = "plivo143597921360040065243480"
-    var pass: NSString = "12345"
+    var username: NSString = kUSERNAME as NSString
+    var pass: NSString = kPASSWORD as NSString
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ViewController did load")
         
-        //Login
-        Phone.sharedInstance.login(withUserName: username as String,
-                                   andPassword: pass as String)
+        //Login using voipRegistration
+        DispatchQueue.main.async(execute: {() -> Void in
+            let appDelegate: AppDelegate? = (UIApplication.shared.delegate as? AppDelegate)
+            appDelegate?.voipRegistration()
+        })
         
         // Initiate callKitProvider and callObserver
         CallKitInstance.sharedInstance.callKitProvider?.setDelegate(self, queue: DispatchQueue.main)
@@ -83,8 +85,6 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     func onLogin() {
         DispatchQueue.main.async(execute: {() -> Void in
             UtilClass.setUserAuthenticationStatus(true)
-            let appDelegate: AppDelegate? = (UIApplication.shared.delegate as? AppDelegate)
-            appDelegate?.voipRegistration()
             self.loggedinAsLabel.text = self.username as String;
             print("Ready to make a call")
         })
