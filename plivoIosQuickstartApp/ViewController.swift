@@ -180,6 +180,28 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     }
     
     /**
+     * onIncomingCallAnswered delegate implementation.
+     */
+    
+    func onIncomingCallAnswered(_ incoming: PlivoIncoming) {
+        print("- Incoming call answered", incoming.callId);
+        self.callStateLabel.text = "Incoming Call Connected"
+    }
+    
+    /**
+     * onIncomingCallInvalid delegate implementation.
+     */
+    
+    func onIncomingCallInvalid(_ incoming: PlivoIncoming) {
+        print("- Incoming call is invalid", incoming.callId);
+        if (incCall != nil) {
+            self.isItUserAction = true
+            performEndCallAction(with: CallKitInstance.sharedInstance.callUUID!)
+            incCall = nil
+        }
+    }
+    
+    /**
      * onIncomingCallHangup delegate implementation.
      */
     func onIncomingCallHangup(_ incoming: PlivoIncoming) {
@@ -212,7 +234,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
         DispatchQueue.main.async(execute: {() -> Void in
             self.muteButton.isEnabled = true
             self.holdButton.isEnabled = true
-            self.callStateLabel.text = "Connected"
+            self.callStateLabel.text = "Outgoing Call Connected"
             
             // Start Audio Device
             Phone.sharedInstance.startAudioDevice()
@@ -358,7 +380,6 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
             }
             else {
                 print("Incoming call - successfully reported.");
-                self.callStateLabel.text = "Incoming Call connected"
             }
         })
     }
@@ -514,6 +535,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
             self.unhideActiveCallView()
             self.muteButton.isEnabled = true
             self.holdButton.isEnabled = true
+            self.callStateLabel.text = "Connecting..."
         })
     }
     
