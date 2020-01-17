@@ -185,7 +185,9 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     
     func onIncomingCallAnswered(_ incoming: PlivoIncoming) {
         print("- Incoming call answered", incoming.callId);
-        self.callStateLabel.text = "Incoming Call Connected"
+        DispatchQueue.main.async(execute: {() -> Void in
+            self.callStateLabel.text = "Incoming Call Connected"
+        })
     }
     
     /**

@@ -15,6 +15,7 @@ import UserNotifications
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, UNUserNotificationCenterDelegate  {
     
+    // Used for checking the platform in which the app is running
     struct Platform {
         static let isSimulator: Bool = {
             var isSim = false
@@ -42,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
     }
     
+    // Called whenever an incoming call comes through push notification
     func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
         NSLog("pushRegistry:didReceiveIncomingPushWithPayload:forType:")
         if (type == PKPushType.voIP) {

@@ -31,7 +31,7 @@ class Phone {
         endpoint.logout()
     }
     
-    //receive and pass on (information or a message)
+    //receive and pass on (information or a message) from incoming call to SDK
     func relayVoipPushNotification(_ pushdata: [AnyHashable: Any]) {
         endpoint.relayVoipPushNotification(pushdata)
     }
