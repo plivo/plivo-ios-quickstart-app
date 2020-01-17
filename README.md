@@ -2,7 +2,7 @@
 
 
 
-![plivo-iOSsdk-2.0-example](ReadMeImages/app.png)
+![plivo-ios-quickstart-app](ReadMeImages/app.png)
 
 
 The Plivo iOS SDK v2 allows you to make outgoing and receive incoming calls in your iOS application.
@@ -170,7 +170,7 @@ PushInfo is the NSDictionary object forwarded by the apple push notification. Th
 
 You are now ready to receive incoming calls. 
 
-![plivo-iOSsdk-2.0-example](ReadMeImages/callkit.png)
+![plivo-ios-quickstart-app](ReadMeImages/callkit.png)
 
 License
 
