@@ -9,7 +9,8 @@
 #define kAUTHENTICATIONSTATUS  @"AuthenticationStatus"
 #define kLOGINFAILMSG @"Login failed. Please check your username and password"
 #define kINVALIDSIPENDPOINTMSG @"Please enter SIP Endpoint or Phone numner"
-#define kUSERNAME @"plivo143597921360040065243480"
-#define kPASSWORD @"12345"
+//Change endpoint name and password 
+#define kUSERNAME @"Username"
+#define kPASSWORD @"Password"
 //#define kENDPOINTURL @"@phone.test.plivo.com"
 #define kENDPOINTURL @"@phone.plivo.com"
