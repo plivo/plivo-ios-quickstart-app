@@ -34,6 +34,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     var incCall: PlivoIncoming?
     
     var isSpeakerOn: Bool = false
+    var isLoggedIn: Bool = false
     
     // -----------------------------------------
     //Replace the following values with your SIP URI endpoint and its password
@@ -87,6 +88,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
             UtilClass.setUserAuthenticationStatus(true)
             self.loggedinAsLabel.text = self.username as String;
             print("Ready to make a call")
+            self.isLoggedIn = true
         })
     }
     
@@ -578,6 +580,10 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     // MARK: - Handling IBActions
     @IBAction func callButtonTapped(_ sender: Any) {
         print(" >> callButtonTapped ")
+        if(!self.isLoggedIn) {
+            print("Please login to make a call")
+            return;
+        }
         switch AVAudioSession.sharedInstance().recordPermission {
                 
             case AVAudioSession.RecordPermission.granted:
