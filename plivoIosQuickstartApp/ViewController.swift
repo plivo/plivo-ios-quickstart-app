@@ -548,32 +548,27 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
         
         print("provider:CXEndCallAction:");
         DispatchQueue.main.async(execute: {() -> Void in
-            if !self.isItGSMCall || self.isItUserAction {
-                Phone.sharedInstance.stopAudioDevice()
-                if (self.incCall != nil) {
-                    if self.incCall?.state != Ongoing {
-                        print("Incoming call - Reject");
-                        self.incCall?.reject()
-                    }
-                    else {
-                        print("Incoming call - Hangup");
-                        self.incCall?.hangup()
-                    }
-                    self.incCall = nil
+            Phone.sharedInstance.stopAudioDevice()
+            if (self.incCall != nil) {
+                if self.incCall?.state != Ongoing {
+                    print("Incoming call - Reject");
+                    self.incCall?.reject()
                 }
-                
-                if (self.outCall != nil) {
-                    print("Outgoing call - Hangup");
-                    self.outCall?.hangup()
-                    self.outCall = nil
+                else {
+                    print("Incoming call - Hangup");
+                    self.incCall?.hangup()
                 }
-                action.fulfill()
-                self.isItUserAction = false
-                self.hideActiveCallView()
+                self.incCall = nil
             }
-            else {
-                print("GSM - provider:performEndCallAction:");
+            
+            if (self.outCall != nil) {
+                print("Outgoing call - Hangup");
+                self.outCall?.hangup()
+                self.outCall = nil
             }
+            action.fulfill()
+            self.isItUserAction = false
+            self.hideActiveCallView()
         })
     }
     
