@@ -87,7 +87,7 @@ After successful login make VoiceCalls.
 
 ### <a name="bullet5"></a>5. Plivo iOS SDK V2 with Push Kit integration
 
-To enable Pushkit Integration in the SDK the registerToken and relayVoipPushNotification are implemented 
+To enable Pushkit Integration in the SDK the login with deviceToken and relayVoipPushNotification are implemented 
 ```
 //Register pushkit token using the login method as mentioned above
 func login(withUserName userName: String, andPassword password: String, deviceToken token: Data) {
