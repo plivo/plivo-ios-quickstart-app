@@ -46,7 +46,7 @@ Signup and create endpoints with Plivo using below link
 
 [Plivo Dashboard](https://manage.plivo.com/accounts/login/)
 
-### <a name="bullet3"></a>3. Rgister and Unregister Endpoints
+### <a name="bullet3"></a>3. Register and Unregister Endpoints
 
 Implement SIP register to Plivo Communication Server
 
