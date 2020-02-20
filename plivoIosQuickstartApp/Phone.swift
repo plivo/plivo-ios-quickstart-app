@@ -13,7 +13,7 @@ class Phone {
     
     static let sharedInstance = Phone()
     
-    var endpoint: PlivoEndpoint = PlivoEndpoint(debug: true)
+    var endpoint: PlivoEndpoint = PlivoEndpoint(["debug": true])
     private var outCall: PlivoOutgoing?
     
     // To register with SIP Server
@@ -21,17 +21,17 @@ class Phone {
         endpoint.login(userName, andPassword: password)
     }
     
+    // To register with SIP Server using device token
+    func login(withUserName userName: String, andPassword password: String, deviceToken token: Data) {
+        endpoint.login(userName, andPassword: password, deviceToken: token)
+    }
+    
     //To unregister with SIP Server
     func logout() {
         endpoint.logout()
     }
     
-    //Register pushkit token
-    func registerToken(_ token: Data) {
-        endpoint.registerToken(token)
-    }
-    
-    //receive and pass on (information or a message)
+    //receive and pass on (information or a message) from incoming call to SDK
     func relayVoipPushNotification(_ pushdata: [AnyHashable: Any]) {
         endpoint.relayVoipPushNotification(pushdata)
     }

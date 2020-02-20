@@ -15,8 +15,40 @@ import UserNotifications
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, UNUserNotificationCenterDelegate  {
     
-    func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
+    // Used for checking the platform in which the app is running
+    struct Platform {
+        static let isSimulator: Bool = {
+            var isSim = false
+            #if arch(i386) || arch(x86_64)
+            isSim = true
+            #endif
+            return isSim
+        }()
+    }
+    
+    // MARK: PKPushRegistryDelegate
+    func pushRegistry(_ registry: PKPushRegistry, didUpdate credentials: PKPushCredentials, for type: PKPushType) {
+        NSLog("pushRegistry:didUpdatePushCredentials:forType:");
+        if credentials.token.count == 0 {
+            print("VOIP token NULL")
+            return
+        }
+        print("Credentials token: \(credentials.token)")
+        Phone.sharedInstance.login(withUserName: kUSERNAME, andPassword: kPASSWORD, deviceToken: credentials.token)
+    }
+    
+    func pushRegistry(_ registry: PKPushRegistry, didInvalidatePushTokenFor type: PKPushType) {
+        NSLog("pushRegistry:didInvalidatePushTokenForType:")
         
+        
+    }
+    
+    // Called whenever an incoming call comes through push notification
+    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
+        NSLog("pushRegistry:didReceiveIncomingPushWithPayload:forType:")
+        if (type == PKPushType.voIP) {
+            Phone.sharedInstance.relayVoipPushNotification(payload.dictionaryPayload)
+        }
     }
     
     var window: UIWindow?
@@ -39,12 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                 if granted {
                     print("AVAudioSession permission - granted ")
                     do {
-                        //try session.setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playAndRecord)), mode: AVAudioSession.Mode.default)
-                        //try session.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.default)
-                        //try session.setCategory(AVAudioSession.Category.playAndRecord)
                         try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.voiceChat, options: .defaultToSpeaker)
-                        //try session.setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: [])
-                        
                         try audioSession.setActive(true)
                     }
                     catch {
@@ -87,13 +114,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
 
     // Register for VoIP notifications
     func voipRegistration() {
-        let mainQueue = DispatchQueue.main
-        // Create a push registry object
-        let voipResistry = PKPushRegistry(queue: mainQueue)
-        // Set the registry's delegate to self
-        voipResistry.delegate = (self as? PKPushRegistryDelegate)
-        //Set the push type to VOIP
-        voipResistry.desiredPushTypes = Set<AnyHashable>([PKPushType.voIP]) as? Set<PKPushType>
+        if Platform.isSimulator {
+            Phone.sharedInstance.login(withUserName: kUSERNAME, andPassword: kPASSWORD)
+        } else {
+            let mainQueue = DispatchQueue.main
+            // Create a push registry object
+            let voipResistry = PKPushRegistry(queue: mainQueue)
+            // Set the registry's delegate to self
+            voipResistry.delegate = (self as PKPushRegistryDelegate)
+            //Set the push type to VOIP
+            voipResistry.desiredPushTypes = Set<AnyHashable>([PKPushType.voIP]) as? Set<PKPushType>
+        }
     }
 
 }

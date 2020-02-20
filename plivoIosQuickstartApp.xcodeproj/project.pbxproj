@@ -277,7 +277,7 @@
 				TargetAttributes = {
 					28A6F6A0219952D600FCF06E = {
 						CreatedOnToolsVersion = 10.0;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -289,10 +289,12 @@
 					};
 					28A6F6B4219952DA00FCF06E = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						TestTargetID = 28A6F6A0219952D600FCF06E;
 					};
 					28A6F6BF219952DA00FCF06E = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						TestTargetID = 28A6F6A0219952D600FCF06E;
 					};
 				};
@@ -543,12 +545,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.plivo.plivoIosQuickstartApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.plivotest.dummytest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "plivoIosQuickstartApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -572,11 +574,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.plivo.plivoIosQuickstartApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.plivotest.dummytest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "plivoIosQuickstartApp-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -596,7 +598,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.plivo.plivoIosQuickstartAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/plivoIosQuickstartApp.app/plivoIosQuickstartApp";
 			};
@@ -617,7 +619,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.plivo.plivoIosQuickstartAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/plivoIosQuickstartApp.app/plivoIosQuickstartApp";
 			};
@@ -637,7 +639,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.plivo.plivoIosQuickstartAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = plivoIosQuickstartApp;
 			};
@@ -657,7 +659,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.plivo.plivoIosQuickstartAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = plivoIosQuickstartApp;
 			};

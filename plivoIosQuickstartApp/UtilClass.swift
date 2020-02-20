@@ -37,7 +37,7 @@ class UtilClass: NSObject
      * To check empty string
      */
     class func isEmpty(_ text: String) -> Bool {
-        return (nil == text || true == (self.trimWhiteSpaces(text) == "")) ? true : false
+        return (text.isEmpty || true == (self.trimWhiteSpaces(text) == "")) ? true : false
     }
     
     /*

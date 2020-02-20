@@ -45,10 +45,20 @@ typedef enum
  */
 - (void)onIncomingCall:(PlivoIncoming *)incoming;
 
+/* On an incoming call, if the call is answered by the caller, this delegate
+ would be triggered with the PlivoIncoming object.
+ */
+- (void)onIncomingCallAnswered:(PlivoIncoming *)incoming;
+
 /* On an incoming call, if the call is disconnected by the caller, this delegate
  would be triggered with the PlivoIncoming object.
  */
 - (void)onIncomingCallRejected:(PlivoIncoming *)incoming;
+
+/* On an incoming call, if the call gets timed out, this delegate
+ would be triggered.
+ */
+- (void)onIncomingCallInvalid:(PlivoIncoming *)incoming;
 
 /* On an incoming call, if the call is disconnected by the caller after being answered,
  this delegate would be triggered with the PlivoIncoming object.
@@ -90,6 +100,14 @@ typedef enum
 - (void)onOutgoingCallHangup:(PlivoOutgoing *)call;
 
 
+- (void)onFeedbackSuccess: (int) statusCode;
+
+- (void)onFeedbackFailure: (NSError*) error;
+
+- (void)onFeedbackValidationError:(NSString *) validationErrorMessage;
+
+- (void)mediaMetrics:(NSDictionary *)mediaInfo;
+
 @end
 
 
@@ -99,7 +117,7 @@ typedef enum
 
 /* The delegate object on which events will be received.
  */
-@property (nonatomic, assign) id delegate;
+@property (nonatomic, weak) id delegate;
 @property (nonatomic, readwrite) PlivoAccId accId;
 
 /**
@@ -109,9 +127,19 @@ typedef enum
 - (id)init;
 
 /**
+ * Init endpoint object and specify it's options like "enableTracking, debug etc."
+ */
+- (id)init:(NSDictionary *)initOptions;
+
+/**
  * Init endpoint object and specify it's debug flag
  */
-- (id)initWithDebug:(BOOL)isDebug;
+- (id)initWithDebug:(BOOL)isDebug __deprecated_msg("'initWithDebug:isDebug' is deprecated. Use `init:initOptions` or `init:` instead");
+
+/**
+ * Init endpoint object and specify it's debug flag and options like "enableTracking etc."
+ */
+- (id)initWithDebug:(BOOL)isDebug :(NSDictionary *)initOptions __deprecated_msg("'initWithDebug:isDebug:initOptions' is deprecated. Use `init:initOptions` or `init:` instead");
 
 /* Registers an endpoint
  
@@ -120,14 +148,44 @@ typedef enum
  */
 - (void)login:(NSString *)username AndPassword:(NSString *)password;
 
-/*  
+/* Registers an endpoint with timeout in seconds
  
-    This method is used to register the device token for VOIP push notifications.
-    @param token
-    Register for Push Notifications and get the device token from APNS and tell the PlivoVoiceKit about the push token
-
+ Calling this method with the username, password and timeout of your SIP endpoint would
+ register the endpoint.
  */
-- (void)registerToken:(NSData*)token;
+- (void)login:(NSString *)username AndPassword:(NSString *)password RegTimeout:(int)regTimeout;
+
+/*
+ 
+ This method is used for registering an endpoint with device token for VOIP push notifications.
+
+ Calling this method with the username, password and device token would register the endpoint and get
+ the device token from APNS and tell the PlivoVoiceKit about the push token
+ 
+ */
+
+- (void)login:(NSString *)username AndPassword:(NSString *)password DeviceToken:(NSData*)token;
+
+/*
+ 
+ This method is used for registering an endpoint with device token and certificate ID for VOIP push notifications.
+ 
+ Calling this method with the username, password, device token and certificate ID would register the endpoint and get
+ the device token from APNS and tell the PlivoVoiceKit about the push token
+ 
+ */
+
+- (void)login:(NSString *)username AndPassword:(NSString *)password DeviceToken:(NSData*)token CertificateId:(NSString*)certificateId;
+
+/*
+ 
+ This method is used to register the device token for VOIP push notifications.
+ @param token
+ Register for Push Notifications and get the device token from APNS and tell the PlivoVoiceKit about the push token
+ 
+ */
+
+- (void)registerToken:(NSData*)token __deprecated_msg("'registerToken:token' is deprecated. Use `login:username:password:token` instead");
 
 /* 
     @param pushInfo is NSDictionary object, this is forwarded by the apple push notification.
@@ -170,6 +228,14 @@ typedef enum
  */
 - (PlivoOutgoing *)createOutgoingCall;
 
+- (void)submitCallQualityFeedback : (NSString *) callUUID : (NSInteger) startRating : (NSArray *) issues : (NSString *) notes : (Boolean) sendConsoleLog;
+
+- (NSString *)getLastCallUUID;
+
+- (NSString *)getCallUUID;
+
+
+
 /* Calling this method resets the endpoint */
 
 + (void)resetEndpoint;
@@ -181,7 +247,9 @@ typedef enum
 - (void)onLogoutNotification;
 
 - (void)onIncomingCallNotification:(PlivoIncoming *)incoming;
+- (void)onIncomingCallAnsweredNotification:(PlivoIncoming *)incoming;
 - (void)onIncomingCallRejectedNotification:(PlivoIncoming *)incoming;
+- (void)onIncomingCallInvalidNotification:(PlivoIncoming *)incoming;
 - (void)onIncomingCallHangupNotification:(PlivoIncoming *)incoming;
 
 - (void)onIncomingDigitNotification:(NSString *)digit;
@@ -192,7 +260,11 @@ typedef enum
 - (void)onOutgoingCallRejectedNotification:(PlivoOutgoing *)outgoing;
 - (void)onOutgoingCallInvalidNotification:(PlivoOutgoing *)outgoing;
 - (void)onOutgoingCallHangupNotification:(PlivoOutgoing *)outgoing;
-
+- (void)onSubmitCallQualityFeedbackSuccess : (int) statusCode;
+- (void)onSubmitCallQualityFeedbackFailure : (NSError *) error;
+- (void)onSubmitCallQualityFeedbackValidationError:(NSString *) errorMessage;
+- (NSMutableDictionary *) validateInputs : (NSString *) callUUID : (NSInteger) rating : (NSArray *) issues : (NSString *) note;
++ (void)emitMediaMetrics:(NSString *)group :(NSString *)level :(NSString *)type :(float)value :(BOOL)active :(NSString *)desc :(NSString *)stream;
 @end
 
 
