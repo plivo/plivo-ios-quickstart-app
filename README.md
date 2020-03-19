@@ -56,17 +56,17 @@ var endpoint: PlivoEndpoint = PlivoEndpoint(["debug": true])
 
 // To register with SIP Server
 func login( withUserName userName: String, andPassword password: String) {
-endpoint.login(userName, andPassword: password)
+    endpoint.login(userName, andPassword: password)
 }
 
 // To register with SIP Server using device token for getting Push Notifications
 func login(withUserName userName: String, andPassword password: String, deviceToken token: Data) {
-endpoint.login(userName, andPassword: password, deviceToken: token)
+    endpoint.login(userName, andPassword: password, deviceToken: token)
 }
 
 //To unregister with SIP Server
 func logout() {
-endpoint.logout()
+    endpoint.logout()
 }
 ```
 If the registration to an endpoint fails the following delegate gets called 
@@ -91,12 +91,12 @@ To enable Pushkit Integration in the SDK the login with deviceToken and relayVoi
 ```
 //Register pushkit token using the login method as mentioned above
 func login(withUserName userName: String, andPassword password: String, deviceToken token: Data) {
-endpoint.login(userName, andPassword: password, deviceToken: token)
+    endpoint.login(userName, andPassword: password, deviceToken: token)
 }
 
 //receive and pass on (information or a message)
 func relayVoipPushNotification(_ pushdata: [AnyHashable: Any]) {
-endpoint.relayVoipPushNotification(pushdata)
+    endpoint.relayVoipPushNotification(pushdata)
 }
 ```
 please refer to below link on Generating VoIP Certificate. 
@@ -109,18 +109,18 @@ please refer to below link on Generating VoIP Certificate.
 Create PlivoOutgoingCall object , then make a call with destination and headers 
 ```
 func call(withDest dest: String, andHeaders headers: [AnyHashable: Any], error: inout NSError?) -> PlivoOutgoing {
-/* construct SIP URI , where kENDPOINTURL is a contant contaning domain name details*/
-let sipUri: String = "sip:\(dest)\(kENDPOINTURL)"
-/* create PlivoOutgoing object */
-outCall = (endpoint.createOutgoingCall())!
-/* do the call */
-outCall?.call(sipUri, headers: headers, error: &error)
-return outCall!
+    /* construct SIP URI , where kENDPOINTURL is a contant contaning domain name details*/
+    let sipUri: String = "sip:\(dest)\(kENDPOINTURL)"
+    /* create PlivoOutgoing object */
+    outCall = (endpoint.createOutgoingCall())!
+    /* do the call */
+    outCall?.call(sipUri, headers: headers, error: &error)
+    return outCall!
 }
 
 //To Configure Audio
 func configureAudioSession() {
-endpoint.configureAudioDevice()
+    endpoint.configureAudioDevice()
 }
 ```
 configureAudioSession - use this callkit method to set up the AVAudioSession with desired configuration.
@@ -147,22 +147,20 @@ would initiate an outbound call with custom SIP headers.
 ```
 // MARK: PKPushRegistryDelegate
 func pushRegistry(_ registry: PKPushRegistry, didUpdate credentials: PKPushCredentials, forType type: PKPushType) {
+    if credentials.token.count == 0 {
+    print("VOIP token NULL")
+    return
+    }
 
-if credentials.token.count == 0 {
-print("VOIP token NULL")
-return
-}
-
-// This method is used to register the device token for VOIP push notifications.
-Phone.sharedInstance.login(withUserName: userName, andPassword: password, deviceToken: credentials.token)
+    // This method is used to register the device token for VOIP push notifications.
+    Phone.sharedInstance.login(withUserName: userName, andPassword: password, deviceToken: credentials.token)
 }
 
 //When the push arrives below delegate method will be called. 
 func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, forType type: PKPushType) {
-
-if (type == PKPushType.voIP) {
-Phone.sharedInstance.relayVoipPushNotification(payload.dictionaryPayload)
-}
+    if (type == PKPushType.voIP) {
+    Phone.sharedInstance.relayVoipPushNotification(payload.dictionaryPayload)
+    }
 }
 ```
 PushInfo is the NSDictionary object forwarded by the apple push notification. This will enable the application to receive incoming calls even the app is not in foreground.
