@@ -10,7 +10,7 @@ To get started with this quickstart application follow these steps.
     - [Create Endpoints](#bullet2)
     - [Register and Unregister Endpoint](#bullet3)
     - [Run the app](#bullet4)
-    -[Plivo iOS SDK V2 with Push Kit integration](#bullet5)
+    - [Plivo iOS SDK V2 with Push Kit integration](#bullet5)
     - [Making an outgoing call](#bullet6)
 - **Incoming Call:** You can enable the application to receive incoming calls in the form of push notifications using Apple’s VoIP Service.
 
