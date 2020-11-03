@@ -46,6 +46,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
         super.viewDidLoad()
         print("ViewController did load")
         
+        handleDarkMode()
         //Login using voipRegistration
         DispatchQueue.main.async(execute: {() -> Void in
             let appDelegate: AppDelegate? = (UIApplication.shared.delegate as? AppDelegate)
@@ -81,6 +82,12 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func handleDarkMode() {
+        if #available(iOS 13.0, *) {
+            userNameTextField.overrideUserInterfaceStyle = .light;
+        }
     }
     
     func onLogin() {
