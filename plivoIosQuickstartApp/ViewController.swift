@@ -831,7 +831,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
      * End on going calls(If any)
      */
     @objc func appWillTerminate() {
-        performEndCallAction(with: CallKitInstance.sharedInstance.callUUID!)
+        performEndCallAction(with: CallKitInstance.sharedInstance.callUUID ?? UUID())
     }
 
     /**

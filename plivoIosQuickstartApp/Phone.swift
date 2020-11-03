@@ -22,7 +22,7 @@ class Phone {
     }
     
     // To register with SIP Server using device token
-    func login(withUserName userName: String, andPassword password: String, deviceToken token: Data) {
+    func login(withUserName userName: String, andPassword password: String, deviceToken token: Data?) {
         endpoint.login(userName, andPassword: password, deviceToken: token)
     }
     
