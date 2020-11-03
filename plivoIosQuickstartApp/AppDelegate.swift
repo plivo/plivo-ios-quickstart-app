@@ -14,6 +14,8 @@ import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, UNUserNotificationCenterDelegate  {
+    var deviceToken: Data?
+    var didUpdatePushCredentials = false
     
     // Used for checking the platform in which the app is running
     struct Platform {
@@ -34,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             return
         }
         print("Credentials token: \(credentials.token)")
+        useVoipToken(credentials.token)
+        didUpdatePushCredentials = true
         Phone.sharedInstance.login(withUserName: kUSERNAME, andPassword: kPASSWORD, deviceToken: credentials.token)
     }
     
@@ -47,6 +51,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
         NSLog("pushRegistry:didReceiveIncomingPushWithPayload:forType:")
         if (type == PKPushType.voIP) {
+            if (!didUpdatePushCredentials) {
+                Phone.sharedInstance.login(withUserName: kUSERNAME, andPassword: kPASSWORD, deviceToken: deviceToken)
+            }
             Phone.sharedInstance.relayVoipPushNotification(payload.dictionaryPayload)
         }
     }
@@ -55,6 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        NSLog("application:didFinishLaunchingWithOptions:launchOptions:")
 
         //For VOIP Notificaitons
         let center = UNUserNotificationCenter.current()
@@ -119,12 +127,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         } else {
             let mainQueue = DispatchQueue.main
             // Create a push registry object
-            let voipResistry = PKPushRegistry(queue: mainQueue)
+            let voipRegistry = PKPushRegistry(queue: mainQueue)
             // Set the registry's delegate to self
-            voipResistry.delegate = (self as PKPushRegistryDelegate)
-            //Set the push type to VOIP
-            voipResistry.desiredPushTypes = Set<AnyHashable>([PKPushType.voIP]) as? Set<PKPushType>
+            voipRegistry.delegate = (self as PKPushRegistryDelegate)
+            // Set the push type to VOIP
+            voipRegistry.desiredPushTypes = Set<AnyHashable>([PKPushType.voIP]) as? Set<PKPushType>
+            // Add device token globally from cache
+            useVoipToken(voipRegistry.pushToken(for: .voIP))
         }
+    }
+    
+    //Store device token globally
+    func useVoipToken(_ tokenData: Data?) {
+            deviceToken = tokenData
     }
 
 }
